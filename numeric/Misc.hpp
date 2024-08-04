@@ -148,37 +148,6 @@ template<class Lambda, int=(Lambda{}(), 0)>
 constexpr bool is_constexpr(Lambda) { return true; }
 constexpr bool is_constexpr(...) { return false; }
 
-template <class T>
-class dummy_ref {
-public:
-    constexpr dummy_ref() noexcept : _ptr(nullptr) {}
-    constexpr dummy_ref(T& bound_obj) noexcept : _ptr(&bound_obj) {}
-
-    constexpr operator T(){ return _ptr ? *_ptr : T(); }
-
-    constexpr dummy_ref& operator=(const dummy_ref& b) { 
-        if(_ptr && b._ptr) { *_ptr = *b._ptr; return *this; }
-        else throw std::logic_error("Attempted to assign to or from a null reference."); 
-    }
-    constexpr dummy_ref& operator=(dummy_ref&& b) { 
-        if(_ptr && b._ptr) { *_ptr = *b._ptr; return *this; }
-        else throw std::logic_error("Attempted to assign to or from a null reference."); 
-    }
-private:
-    T* _ptr;
-};
-
-template <class T>
-class const_dummy_ref {
-public:
-    constexpr const_dummy_ref() noexcept : _ptr(nullptr) {}
-    constexpr const_dummy_ref(const T& bound_obj) noexcept : _ptr(&bound_obj) {}
-
-    constexpr operator T(){ return _ptr ? *_ptr : T(); }
-private:
-    const T* _ptr;
-};
-
 // A helper for index-based right-folding from 0 to N-1
 template <class T>
 struct ROIndexSplitter {
