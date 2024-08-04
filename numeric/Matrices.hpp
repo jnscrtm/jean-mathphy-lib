@@ -2,7 +2,8 @@
 
 #include <array>
 #include <immintrin.h>
-#include "Misc.hpp"
+
+#include "other/Misc.hpp"
 
 template <class T, size_t N>
 class NVector {
